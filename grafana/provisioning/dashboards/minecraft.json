@@ -1,0 +1,1143 @@
+{
+  "title": "Minecraft Server Monitoring",
+  "id": 1,
+  "tags": ["minecraft", "monitoring", "docker"],
+  "timezone": "browser",
+  "panels": [
+    {
+      "id": 1,
+      "title": "Server Status",
+      "type": "stat",
+      "gridPos": {"x": 0, "y": 0, "w": 3, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "minecraft_server_up",
+          "legendFormat": "Server Status",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "mappings": [
+            {"from": "0", "to": "OFFLINE", "text": "OFFLINE"},
+            {"from": "1", "to": "ONLINE", "text": "ONLINE"}
+          ],
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "red"},
+              {"value": 1, "color": "green"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "title": "Online Players",
+      "type": "stat",
+      "gridPos": {"x": 3, "y": 0, "w": 3, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "minecraft_players_online",
+          "legendFormat": "Online Players",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 10, "color": "yellow"},
+              {"value": 15, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "title": "Server Latency",
+      "type": "stat",
+      "gridPos": {"x": 6, "y": 0, "w": 3, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "minecraft_latency_ms",
+          "legendFormat": "Latency",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 50, "color": "yellow"},
+              {"value": 100, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "title": "Max Players",
+      "type": "stat",
+      "gridPos": {"x": 9, "y": 0, "w": 3, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "minecraft_players_max",
+          "legendFormat": "Max Players",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 5,
+      "title": "Scrape Rate",
+      "type": "stat",
+      "gridPos": {"x": 12, "y": 0, "w": 3, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(minecraft_scrape_count_total[5m])",
+          "legendFormat": "Scrapes/min",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqpm",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 6,
+      "title": "Scrape Errors",
+      "type": "stat",
+      "gridPos": {"x": 15, "y": 0, "w": 3, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "minecraft_scrape_errors_total",
+          "legendFormat": "Total Errors",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 1, "color": "yellow"},
+              {"value": 5, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 7,
+      "title": "Error Rate",
+      "type": "stat",
+      "gridPos": {"x": 18, "y": 0, "w": 3, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(minecraft_scrape_errors_total[5m])",
+          "legendFormat": "Errors/min",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqpm",
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 0.1, "color": "yellow"},
+              {"value": 0.5, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 8,
+      "title": "Players Online History",
+      "type": "timeseries",
+      "gridPos": {"x": 0, "y": 3, "w": 12, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "minecraft_players_online",
+          "legendFormat": "Online Players",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "unit": "none"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "title": "Server Latency History",
+      "type": "timeseries",
+      "gridPos": {"x": 12, "y": 3, "w": 12, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "minecraft_latency_ms",
+          "legendFormat": "Latency (ms)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 10,
+      "title": "Container CPU Usage %",
+      "type": "timeseries",
+      "gridPos": {"x": 0, "y": 9, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(container_cpu_usage_seconds_total{container=\"minecraft-server\"}[5m]) * 100",
+          "legendFormat": "CPU Usage",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": {"mode": "palette-classic"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 70, "color": "yellow"},
+              {"value": 90, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 11,
+      "title": "Container Memory Usage",
+      "type": "timeseries",
+      "gridPos": {"x": 8, "y": 9, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "container_memory_usage_bytes{container=\"minecraft-server\"}",
+          "legendFormat": "Memory Used",
+          "refId": "A"
+        },
+        {
+          "expr": "container_memory_max_usage_bytes{container=\"minecraft-server\"}",
+          "legendFormat": "Memory Max",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 12,
+      "title": "Container Network Traffic",
+      "type": "timeseries",
+      "gridPos": {"x": 16, "y": 9, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(container_network_receive_bytes_total{container=\"minecraft-server\"}[5m])",
+          "legendFormat": "Network Receive",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(container_network_transmit_bytes_total{container=\"minecraft-server\"}[5m])",
+          "legendFormat": "Network Transmit",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 13,
+      "title": "System CPU Usage %",
+      "type": "timeseries",
+      "gridPos": {"x": 0, "y": 15, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "100 - (avg by(instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
+          "legendFormat": "CPU Usage",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": {"mode": "palette-classic"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 70, "color": "yellow"},
+              {"value": 90, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 14,
+      "title": "System Memory Usage",
+      "type": "timeseries",
+      "gridPos": {"x": 8, "y": 15, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes",
+          "legendFormat": "Used Memory",
+          "refId": "A"
+        },
+        {
+          "expr": "node_memory_MemTotal_bytes",
+          "legendFormat": "Total Memory",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 15,
+      "title": "Disk I/O Operations",
+      "type": "timeseries",
+      "gridPos": {"x": 16, "y": 15, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(node_disk_reads_completed_total[5m])",
+          "legendFormat": "Read Ops",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(node_disk_writes_completed_total[5m])",
+          "legendFormat": "Write Ops",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ops",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 16,
+      "title": "Disk I/O Throughput",
+      "type": "timeseries",
+      "gridPos": {"x": 0, "y": 21, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(node_disk_read_bytes_total[5m])",
+          "legendFormat": "Read Bytes",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(node_disk_written_bytes_total[5m])",
+          "legendFormat": "Write Bytes",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 17,
+      "title": "Container Uptime",
+      "type": "stat",
+      "gridPos": {"x": 8, "y": 21, "w": 4, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "time() - container_start_time_seconds{container=\"minecraft-server\"}",
+          "legendFormat": "Uptime",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 18,
+      "title": "Container Restarts",
+      "type": "stat",
+      "gridPos": {"x": 12, "y": 21, "w": 4, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "changes(container_start_time_seconds{container=\"minecraft-server\"}[24h])",
+          "legendFormat": "Restarts (24h)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 1, "color": "yellow"},
+              {"value": 3, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 19,
+      "title": "Network Connections",
+      "type": "timeseries",
+      "gridPos": {"x": 16, "y": 21, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "node_netstat_Tcp_CurrEstab",
+          "legendFormat": "TCP Connections",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 20,
+      "title": "Disk Space Usage",
+      "type": "timeseries",
+      "gridPos": {"x": 0, "y": 27, "w": 12, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "node_filesystem_size_bytes{mountpoint=\"/data\"} - node_filesystem_free_bytes{mountpoint=\"/data\"}",
+          "legendFormat": "Used Space",
+          "refId": "A"
+        },
+        {
+          "expr": "node_filesystem_size_bytes{mountpoint=\"/data\"}",
+          "legendFormat": "Total Space",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 21,
+      "title": "Disk Space Usage %",
+      "type": "stat",
+      "gridPos": {"x": 12, "y": 27, "w": 4, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "(1 - (node_filesystem_free_bytes{mountpoint=\"/data\"} / node_filesystem_size_bytes{mountpoint=\"/data\"})) * 100",
+          "legendFormat": "Disk Usage %",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 80, "color": "yellow"},
+              {"value": 90, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 22,
+      "title": "Process Count",
+      "type": "stat",
+      "gridPos": {"x": 16, "y": 27, "w": 4, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "node_processes_total",
+          "legendFormat": "Total Processes",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 23,
+      "title": "Load Average",
+      "type": "timeseries",
+      "gridPos": {"x": 20, "y": 27, "w": 4, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "node_load1",
+          "legendFormat": "1min Load",
+          "refId": "A"
+        },
+        {
+          "expr": "node_load5",
+          "legendFormat": "5min Load",
+          "refId": "B"
+        },
+        {
+          "expr": "node_load15",
+          "legendFormat": "15min Load",
+          "refId": "C"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    }
+  ],
+  "time": {"from": "now-6h", "to": "now"},
+  "timepicker": {},
+  "refresh": "30s",
+  "schemaVersion": 36,
+  "version": 1,
+  "editable": true
+}{
+  "title": "Minecraft Server Monitoring",
+  "id": 1,
+  "tags": ["minecraft", "monitoring", "docker"],
+  "timezone": "browser",
+  "panels": [
+    {
+      "id": 1,
+      "title": "Server Status",
+      "type": "stat",
+      "gridPos": {"x": 0, "y": 0, "w": 3, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "minecraft_server_up",
+          "legendFormat": "Server Status",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "mappings": [
+            {"from": "0", "to": "OFFLINE", "text": "OFFLINE"},
+            {"from": "1", "to": "ONLINE", "text": "ONLINE"}
+          ],
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "red"},
+              {"value": 1, "color": "green"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "title": "Online Players",
+      "type": "stat",
+      "gridPos": {"x": 3, "y": 0, "w": 3, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "minecraft_players_online",
+          "legendFormat": "Online Players",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 10, "color": "yellow"},
+              {"value": 15, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "title": "Server Latency",
+      "type": "stat",
+      "gridPos": {"x": 6, "y": 0, "w": 3, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "minecraft_latency_ms",
+          "legendFormat": "Latency",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 50, "color": "yellow"},
+              {"value": 100, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "title": "Max Players",
+      "type": "stat",
+      "gridPos": {"x": 9, "y": 0, "w": 3, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "minecraft_players_max",
+          "legendFormat": "Max Players",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 5,
+      "title": "Scrape Rate",
+      "type": "stat",
+      "gridPos": {"x": 12, "y": 0, "w": 3, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(minecraft_scrape_count_total[5m])",
+          "legendFormat": "Scrapes/min",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqpm",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 6,
+      "title": "Scrape Errors",
+      "type": "stat",
+      "gridPos": {"x": 15, "y": 0, "w": 3, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "minecraft_scrape_errors_total",
+          "legendFormat": "Total Errors",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 1, "color": "yellow"},
+              {"value": 5, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 7,
+      "title": "Error Rate",
+      "type": "stat",
+      "gridPos": {"x": 18, "y": 0, "w": 3, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(minecraft_scrape_errors_total[5m])",
+          "legendFormat": "Errors/min",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqpm",
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 0.1, "color": "yellow"},
+              {"value": 0.5, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 8,
+      "title": "Players Online History",
+      "type": "timeseries",
+      "gridPos": {"x": 0, "y": 3, "w": 12, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "minecraft_players_online",
+          "legendFormat": "Online Players",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "unit": "none"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "title": "Server Latency History",
+      "type": "timeseries",
+      "gridPos": {"x": 12, "y": 3, "w": 12, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "minecraft_latency_ms",
+          "legendFormat": "Latency (ms)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 10,
+      "title": "Container CPU Usage %",
+      "type": "timeseries",
+      "gridPos": {"x": 0, "y": 9, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(container_cpu_usage_seconds_total{container=\"minecraft-server\"}[5m]) * 100",
+          "legendFormat": "CPU Usage",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": {"mode": "palette-classic"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 70, "color": "yellow"},
+              {"value": 90, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 11,
+      "title": "Container Memory Usage",
+      "type": "timeseries",
+      "gridPos": {"x": 8, "y": 9, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "container_memory_usage_bytes{container=\"minecraft-server\"}",
+          "legendFormat": "Memory Used",
+          "refId": "A"
+        },
+        {
+          "expr": "container_memory_max_usage_bytes{container=\"minecraft-server\"}",
+          "legendFormat": "Memory Max",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 12,
+      "title": "Container Network Traffic",
+      "type": "timeseries",
+      "gridPos": {"x": 16, "y": 9, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(container_network_receive_bytes_total{container=\"minecraft-server\"}[5m])",
+          "legendFormat": "Network Receive",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(container_network_transmit_bytes_total{container=\"minecraft-server\"}[5m])",
+          "legendFormat": "Network Transmit",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 13,
+      "title": "System CPU Usage %",
+      "type": "timeseries",
+      "gridPos": {"x": 0, "y": 15, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "100 - (avg by(instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
+          "legendFormat": "CPU Usage",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": {"mode": "palette-classic"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 70, "color": "yellow"},
+              {"value": 90, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 14,
+      "title": "System Memory Usage",
+      "type": "timeseries",
+      "gridPos": {"x": 8, "y": 15, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes",
+          "legendFormat": "Used Memory",
+          "refId": "A"
+        },
+        {
+          "expr": "node_memory_MemTotal_bytes",
+          "legendFormat": "Total Memory",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 15,
+      "title": "Disk I/O Operations",
+      "type": "timeseries",
+      "gridPos": {"x": 16, "y": 15, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(node_disk_reads_completed_total[5m])",
+          "legendFormat": "Read Ops",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(node_disk_writes_completed_total[5m])",
+          "legendFormat": "Write Ops",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ops",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 16,
+      "title": "Disk I/O Throughput",
+      "type": "timeseries",
+      "gridPos": {"x": 0, "y": 21, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(node_disk_read_bytes_total[5m])",
+          "legendFormat": "Read Bytes",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(node_disk_written_bytes_total[5m])",
+          "legendFormat": "Write Bytes",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 17,
+      "title": "Container Uptime",
+      "type": "stat",
+      "gridPos": {"x": 8, "y": 21, "w": 4, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "time() - container_start_time_seconds{container=\"minecraft-server\"}",
+          "legendFormat": "Uptime",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 18,
+      "title": "Container Restarts",
+      "type": "stat",
+      "gridPos": {"x": 12, "y": 21, "w": 4, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "changes(container_start_time_seconds{container=\"minecraft-server\"}[24h])",
+          "legendFormat": "Restarts (24h)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 1, "color": "yellow"},
+              {"value": 3, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 19,
+      "title": "Network Connections",
+      "type": "timeseries",
+      "gridPos": {"x": 16, "y": 21, "w": 8, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "node_netstat_Tcp_CurrEstab",
+          "legendFormat": "TCP Connections",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 20,
+      "title": "Disk Space Usage",
+      "type": "timeseries",
+      "gridPos": {"x": 0, "y": 27, "w": 12, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "node_filesystem_size_bytes{mountpoint=\"/data\"} - node_filesystem_free_bytes{mountpoint=\"/data\"}",
+          "legendFormat": "Used Space",
+          "refId": "A"
+        },
+        {
+          "expr": "node_filesystem_size_bytes{mountpoint=\"/data\"}",
+          "legendFormat": "Total Space",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 21,
+      "title": "Disk Space Usage %",
+      "type": "stat",
+      "gridPos": {"x": 12, "y": 27, "w": 4, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "(1 - (node_filesystem_free_bytes{mountpoint=\"/data\"} / node_filesystem_size_bytes{mountpoint=\"/data\"})) * 100",
+          "legendFormat": "Disk Usage %",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "steps": [
+              {"value": null, "color": "green"},
+              {"value": 80, "color": "yellow"},
+              {"value": 90, "color": "red"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 22,
+      "title": "Process Count",
+      "type": "stat",
+      "gridPos": {"x": 16, "y": 27, "w": 4, "h": 3},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "node_processes_total",
+          "legendFormat": "Total Processes",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    },
+    {
+      "id": 23,
+      "title": "Load Average",
+      "type": "timeseries",
+      "gridPos": {"x": 20, "y": 27, "w": 4, "h": 6},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "node_load1",
+          "legendFormat": "1min Load",
+          "refId": "A"
+        },
+        {
+          "expr": "node_load5",
+          "legendFormat": "5min Load",
+          "refId": "B"
+        },
+        {
+          "expr": "node_load15",
+          "legendFormat": "15min Load",
+          "refId": "C"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    }
+  ],
+  "time": {"from": "now-6h", "to": "now"},
+  "timepicker": {},
+  "refresh": "30s",
+  "schemaVersion": 36,
+  "version": 1,
+  "editable": true
+}

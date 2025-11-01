@@ -1,0 +1,132 @@
+version: '3.8'
+
+services:
+  # Minecraft Forge сервер
+  minecraft:
+    image: itzg/minecraft-server:latest
+    container_name: minecraft-server
+    environment:
+      - EULA=TRUE
+      - TYPE=FABRIC
+      - VERSION=1.20.1
+      - FABRIC_VERSION=0.14.21
+      - MEMORY=4G
+      - ENABLE_RCON=true
+      - RCON_PORT=25575
+      - RCON_PASSWORD=minecraft
+      - ONLINE_MODE=false
+      - OVERRIDE_SERVER_PROPERTIES=true
+      - SNOOPER_ENABLED=false
+      # Дополнительные настройки
+      - MAX_PLAYERS=20
+      - VIEW_DISTANCE=10
+      - SIMULATION_DISTANCE=10
+      - SPAWN_PROTECTION=16
+    ports:
+      - "25565:25565" # Minecraft порт
+      - "25575:25575" # RCON порт для мониторинга
+    volumes:
+      - minecraft_data:/data           # Основные данные сервера
+      - ./mods:/data/mods              # Моды
+      - ./config:/data/config          # Конфиги
+      - ./resourcepacks:/data/resourcepacks  # Ресурспаки
+      - ./shaderpacks:/data/shaderpacks      # Шейдерпаки
+      - ./world:/data/world            # Мир сервера (опционально)
+      - ./config/server.properties:/data/server.properties
+    restart: unless-stopped
+    networks:
+      - monitoring_network
+
+  # Prometheus для сбора метрик
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    networks:
+      - monitoring_network
+
+  # Node Exporter для метрик системы
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)'
+    restart: unless-stopped
+    networks:
+      - monitoring_network
+
+  # Самодельный Minecraft экспортер на Python
+  minecraft-exporter:
+    build: ./minecraft-exporter
+    container_name: minecraft-exporter
+    ports:
+      - "8000:8000"
+    environment:
+      - MINECRAFT_HOST=minecraft-server
+      - MINECRAFT_PORT=25565
+      - SCRAPE_INTERVAL=30
+    restart: unless-stopped
+    networks:
+      - monitoring_network
+    depends_on:
+      - minecraft
+
+  # cAdvisor для мониторинга контейнеров
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    networks:
+      - monitoring_network
+
+  # Grafana для визуализации
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    restart: unless-stopped
+    networks:
+      - monitoring_network
+    depends_on:
+      - prometheus
+
+volumes:
+  minecraft_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  monitoring_network:
+    driver: bridge
