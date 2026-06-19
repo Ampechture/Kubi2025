@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  minecraft:
+    image: itzg/minecraft-server:java17
+    environment:
+      TYPE: FABRIC
+      VERSION: 1.20.1
+      MODE: SURVIVAL
+      SERVER_PORT: 25565
+      EULA: TRUE
+      MAX_MEMORY: 12G
+      REMOVE_OLD_MODS: TRUE
+      RCON_PASSWORD: 1488
+    volumes:
+      - ./mc-data:/data
+      - ./mod_pack/config:/config
+      - ./mod_pack/mods:/mods
+
+  backups:
+      image: itzg/mc-backup
+      container_name: mc-backup
+      depends_on:
+        - minecraft
+      volumes:
+        - ./mc-data:/data:ro
+        - ./mc-backups:/backups  
+      environment:
+        BACKUP_INTERVAL: "4h"     
+        PRUNE_BACKUPS_DAYS: 7        
+        RCON_HOST: "minecraft"       
+        RCON_PORT: 25575
+        RCON_PASSWORD: "1488"
+        TZ: "Europe/Moscow"        
