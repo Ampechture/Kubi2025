@@ -10,7 +10,7 @@ services:
       EULA: TRUE
       MAX_MEMORY: 12G
       REMOVE_OLD_MODS: TRUE
-      RCON_PASSWORD: 1488
+      RCON_PASSWORD: "${RCON_PASSWORD}"
     volumes:
       - ./mc-data:/data
       - ./mod_pack/config:/config
@@ -28,6 +28,6 @@ services:
         BACKUP_INTERVAL: "4h"     
         PRUNE_BACKUPS_DAYS: 7        
         RCON_HOST: "minecraft"       
-        RCON_PORT: 25575
-        RCON_PASSWORD: "1488"
+        RCON_PORT: "{RCON_PORT}"
+        RCON_PASSWORD: "${RCON_PASSWORD}"
         TZ: "Europe/Moscow"        
