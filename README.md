@@ -7,3 +7,8 @@ pip install -r requirements.txt
 
 ## Для запуска нужно поправить .env
 [Залогиниться тут](https://console.curseforge.com/?#/login) и создать API-ключ, который нужно вставить в .env в качестве первого параметра
+
+# Запустить контейнеры 
+```bash
+sudo docker-compose up -d
+```
