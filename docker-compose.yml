@@ -7,10 +7,14 @@ services:
       VERSION: 1.20.1
       MODE: SURVIVAL
       SERVER_PORT: 25565
-      EULA: TRUE
+      EULA: "TRUE"
       MAX_MEMORY: 12G
-      REMOVE_OLD_MODS: TRUE
+      REMOVE_OLD_MODS: "TRUE"
       RCON_PASSWORD: "${RCON_PASSWORD}"
+      ONLINE_MODE: "FALSE"
+      DIFFICULTY: "NORMAL"
+    ports:
+      - "25565:25565"
     volumes:
       - ./mc-data:/data
       - ./mod_pack/config:/config
@@ -30,4 +34,4 @@ services:
         RCON_HOST: "minecraft"       
         RCON_PORT: "{RCON_PORT}"
         RCON_PASSWORD: "${RCON_PASSWORD}"
-        TZ: "Europe/Moscow"        
+        TZ: "Europe/Moscow"
